@@ -14,11 +14,10 @@ To perform your own simulations make sure you have OpenFOAM 8 installed. Then, d
 **4 - Volume in the second column of the blockMeshDict vertices matrix (change only the largest value and redo the mesh. You can compare the values from the 60mL and 100mL and extrapolate a value based on the surface area to estimate the height you want).
 
 You can also change the boundary conditions of the simulation, for example, the slip condition from the 0/U file by changing the slip coefficient (0 => slip; 1 => noSlip).
-Additionally, you can change the refinement level of the mesh by changing the initial number of blocks in the blockMeshDict and changing several of the variables available in the hexMeshDict from the system folder (you can compare the reatorWALE and reatorWALE_refined blockMeshDict and hexMeshDict files for a general idea).
 
-The mesh and meshy files can also be changed to include additional refinement near the surface.
+Additionally, you can change the refinement level of the mesh by changing the initial number of blocks in the blockMeshDict and changing several of the variables available in the hexMeshDict from the system folder (you can compare the reatorWALE and reatorWALE_refined blockMeshDict and hexMeshDict files for a general idea). The mesh and meshy files can also be changed to include additional refinement near the surface.
 
-To change the histogram parameters, start and end-time, as well as maxCFL access the system/controlDict. Here you can also add programmable functions such as the KMGS and EDR calculations.
+To change the histogram parameters, simulation start and end-time, as well as the maxCFL value access the system/controlDict. Here you can also add programmable functions such as the KMGS and EDR calculations.
 
 To change the discretization schemes access system/fvSchemes.
 
