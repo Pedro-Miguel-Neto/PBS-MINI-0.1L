@@ -6,8 +6,11 @@ To visualize and perform the data treatment, download the Data_Treatment directo
 To perform your own simulations make sure you have OpenFOAM 8 installed. Then, download the reatorWALE cases and solver, and compile the solver by typping the wclean and wmake commands in the terminal (inside the solver directory). To set-up the mesh run the mesh/meshy bash file to create the mesh (in the case you want to change the opreational volume check point 4 first**). After select the operating conditions:
 
 1 - Agitation rate (in rad/s) in constant/dynamicMeshDict;
+
 2 - Kinematic viscosity and diffusivity as a function of temperature (which you can calculate, for water and oxygen, using the calcNuH2O and calcDab functions from the MATLAB directory) in constant/transportProperties;
+
 3 - Saturation concentration as a function of temperature (which you can calculate, for water and oxygen, using the calcCsat function from the MATLAB directory) in 0/CO2 for the top patch;
+
 **4 - Volume in the second column of the blockMeshDict vertices matrix (change only the largest value and redo the mesh. You can compare the values from the 60mL and 100mL and extrapolate a value based on the surface area to estimate the height you want).
 
 You can also change the boundary conditions of the simulation, for example, the slip condition from the 0/U file by changing the slip coefficient (0 => slip; 1 => noSlip).
