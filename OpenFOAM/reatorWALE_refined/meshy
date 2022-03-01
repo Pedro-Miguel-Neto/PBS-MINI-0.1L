@@ -1,0 +1,44 @@
+#bin
+
+rm -r constant/polyMesh
+foamListTimes -rm
+rm -r proc*
+rm -r 0/*
+mkdir 0/0.mesh
+
+blockMesh -noFunctionObjects
+#setSet -batch setSetDict
+#refineHexMesh c0Zone -overwrite -noFunctionObjects
+#refineHexMesh c0Zone -overwrite -noFunctionObjects
+#setSet -batch setSetDict
+#refineHexMesh c0Zone -overwrite -noFunctionObjects
+
+surfaceFeatures
+decomposePar
+mpirun -np 16 snappyHexMesh -parallel -overwrite > meshLog.make 2>&1
+reconstructParMesh -constant
+
+createBaffles -overwrite
+mergeOrSplitBaffles -split -overwrite
+createPatch -overwrite
+
+refineWallLayer -overwrite '(top)' 0.33
+refineWallLayer -overwrite '(top)' 0.33
+refineWallLayer -overwrite '(top)' 0.33
+#refineWallLayer -overwrite '(top)' 0.33
+#refineWallLayer -overwrite '(top)' 0.33
+
+rm -r anch*
+rm -r cell* 
+
+mv 0/cellLevel 0/0.mesh/cellLevel
+mv 0/cellToRegion 0/0.mesh/cellToRegion
+mv 0/nSurfaceLayers 0/0.mesh/nSurfacelayers
+mv 0/pointLevel 0/0.mesh/pointLevel
+mv 0/thickness 0/0.mesh/thickness
+mv 0/thicknessFraction 0/0.mesh/thicknessFraction
+
+#renumberMesh -overwrite
+checkMesh > checkLog.make 2>&1
+
+#paraFoam -builtin

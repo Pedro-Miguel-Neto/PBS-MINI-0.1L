@@ -1,0 +1,10 @@
+set logscale y
+set title "Residuals"
+set ylabel 'Residual'
+set xlabel 'Iteration'
+set grid
+
+plot for [col=2:6] '/home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/residuals/0/residuals.dat' using 1:col with lines lw 2 title columnheader
+
+pause 5
+reread

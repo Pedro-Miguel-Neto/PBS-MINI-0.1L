@@ -1,0 +1,13 @@
+set title "kcInstF"
+set xlabel 'Time'
+set ylabel 'm/s'
+set grid
+set logscale y
+
+plot "<cat /home/pedroneto/oxySolver/caseTest/meshTurboNewBCRefined3/Other/postProcessing/probes/0/kcInstF" with linespoints ps 0.5 lc rgb "black" lw 2 title "Reference w/ New BC's", "<cat /home/pedroneto/oxySolver/caseTest/meshTurboNewBCRefined4/postProcessing/probes/0/kcInstF" with linespoints ps 0.5 lc rgb "purple" lw 2 title "Reference w/ New BC's"
+
+#, "< cat /home/pedroneto/oxySolver/caseTest/meshTurboSymmLowNu/postProcessing/probes/0/kcInstF" with linespoints ps 0.5 lc rgb "green" lw 2 title "Low Nu", "< cat /home/pedroneto/oxySolver/caseTest/meshTurboSymmLowDAB/#postProcessing/probes/0/kcInstF" with linespoints ps 0.5 lc rgb "blue" lw 2 title "Low DAB", "< cat /home/pedroneto/oxySolver/caseTest/meshTurboSymm/postProcessing/probes/0/kcInstF" with linespoints ps 0.1 lc rgb "red" lw 2 #title "Reference"
+
+pause 5
+reread 
+

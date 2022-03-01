@@ -1,0 +1,65 @@
+//
+FoamFile
+{
+	version	2.0;
+	format	ascii;
+	class	dictionary;
+	location	"system";
+	object	createPatchDict;
+}
+pointSync	false;
+
+masterAMI
+{
+    name            cylinder_AMI1;
+    patchInfo
+    {
+        type            cyclicAMI;
+        matchTolerance  0.0001;
+        neighbourPatch  cylinder_AMI2;
+        transform       rotational;
+        rotationAxis    (0 0 1);
+        rotationCentre  (0 0 -0.0115);
+        rotationAngle   0;
+    }
+    constructFrom patches;
+    patches (cylinder_1);
+}
+
+patches	
+(
+    // master AMI patch
+    {
+        $masterAMI;
+    }
+
+    // slave AMI patch
+    {
+        $masterAMI;
+        name            cylinder_AMI2;
+        patchInfo
+        {
+            neighbourPatch  cylinder_AMI1;
+        }
+        patches (cylinder_1_slave);
+    }
+
+	{
+		name    geo_100_mL_Wheel;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (geo_100_mL_Wheel_default);
+	}
+	{
+		name    Modified_100mL_Vessel;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (Modified_100mL_Vessel_patch00 Modified_100mL_Vessel_patch01 Modified_100mL_Vessel_patch02 Modified_100mL_Vessel_patch03 Modified_100mL_Vessel_patch04 Modified_100mL_Vessel_patch05 Modified_100mL_Vessel_patch06 Modified_100mL_Vessel_patch07 Modified_100mL_Vessel_patch08 Modified_100mL_Vessel_patch09 Modified_100mL_Vessel_patch010);
+	}
+);

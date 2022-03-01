@@ -1,0 +1,9 @@
+set title "nu_t - Maxima and Minima"
+set ylabel 'm²/s'
+set xlabel 'Time'
+set grid
+
+plot for [col=10:11] '/home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/fieldMinMax/0/fieldMinMax.dat' using 1:col with lines notitle
+
+pause 5
+reread

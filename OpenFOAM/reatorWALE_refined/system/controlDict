@@ -1,0 +1,319 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1806                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+adjustTimeStep	true;
+application	pimpleFoam;
+deltaT	1e-06;
+endTime	11;
+maxCo	0.3;
+maxDeltaT	1.0;
+purgeWrite	0;
+startFrom	latestTime;
+startTime	0;
+stopAt	endTime;
+timeFormat	general;
+timePrecision	6;
+writeControl	adjustableRunTime;
+writeInterval	0.5;
+writePrecision	7;
+runTimeModifiable	true;
+compression	compressed;
+writeFormat	ascii;
+
+kcTimeControl
+{
+    startTime2 30;
+    endTime2 60;
+}
+
+/*libs
+(
+	"libOpenFOAM.so"
+	"libsimpleSwakFunctionObjects.so"
+	"libswakFunctionObjects.so"
+	"libgroovyBC.so"
+);*/
+
+
+functions
+{
+#includeFunc "shearStress";
+#includeFunc "wallShearStress";
+#includeFunc "yPlus";
+#includeFunc fieldAverage(U, p, prime2Mean = yes);
+#includeFunc fieldAverage(k, prime2Mean = no);
+
+    residuals
+    {
+        type           residuals;
+        libs           ("libutilityFunctionObjects.so");
+        writeControl   timeStep;
+        writeInterval  1;
+        fields
+        (
+            U
+            p
+            CO2
+        );
+    }
+    
+    fieldAverage1
+    {
+        type                fieldAverage;
+        libs                ("libfieldFunctionObjects.so");
+
+        writeControl        adjustableRunTime;
+        writeInterval       1;
+
+        restartOnRestart    false;
+        restartOnOutput     false;
+        periodicRestart     false;
+        restartPeriod       1;
+
+        base                time;
+        window              1.0;
+        windowName          w1;
+
+        mean                yes;
+        prime2Mean          no;
+
+        fields              (kcF);
+    }    
+    
+        fieldAverage2
+        {
+                type            fieldAverage;
+                functionObjectLibs ( "libfieldFunctionObjects.so" );
+                enabled         true;
+                resetOnOutput   false;
+                cleanRestart    true;
+                writeControl        adjustableRunTime;
+                writeInterval       1;
+
+                fields
+                (
+                        R
+                        {
+                                mean        on;
+                                prime2Mean  off;
+                                base        time;
+                        }
+
+                );
+        }  
+        
+    probes
+    {
+        libs            ("libsampling.so");
+        type            probes;
+        name            probes;
+        writeControl        timeStep;
+        writeInterval       1;
+        fields          (CO2bF kcInstF kcF CO2);
+        probeLocations
+        (
+            ( 0  0  0 )
+            (0 0.011 0)
+        );
+    }
+
+    turbulenceFields1
+    {
+        type            turbulenceFields;
+        libs            ("libfieldFunctionObjects.so");
+        enabled         true;
+        writeControl    adjustableRunTime;
+        writeInterval   1;
+
+        fields
+        (
+            epsilon R k
+        );
+    }
+
+    fieldMinMax
+    {
+        type            fieldMinMax;
+        libs            ("libfieldFunctionObjects.so");
+
+        mode            magnitude;
+        fields          (CO2 U p k nut);
+            
+        location        false;
+    
+        writePrecision  3;
+        writeToFile     true;
+        useUserTime     true;
+//        region          region0;
+        enabled         true;
+        log             false;
+//        timeStart       0;
+//        timeEnd         300;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl        timeStep;
+        writeInterval       1;
+    }
+     
+    correctBoundaries
+    {
+        libs        ("libutilityFunctionObjects.so");
+
+        type coded;
+        // Name of on-the-fly generated functionObject
+        name correctBoundaries;        
+        writeControl        adjustableRunTime;
+        writeInterval       1;
+        codeWrite
+        #{  
+            // Lookup CO2
+            volScalarField CO2 = mesh().lookupObject<volScalarField>("CO2");
+            // Lookup epsilon
+            volScalarField epsilon = mesh().lookupObject<volScalarField>("epsilon");
+            // Lookup k
+            volScalarField k = mesh().lookupObject<volScalarField>("k");
+            // Lookup nut
+            volScalarField nut = mesh().lookupObject<volScalarField>("nut");
+            // Lookup U
+            volVectorField U = mesh().lookupObject<volVectorField>("U");
+            // Lookup p
+            volScalarField p = mesh().lookupObject<volScalarField>("p");
+            // Lookup shearStress
+            volSymmTensorField shearStress = mesh().lookupObject<volSymmTensorField>("shearStress");
+            // Lookup wallShearStress
+            volVectorField wallShearStress = mesh().lookupObject<volVectorField>("wallShearStress");
+            //Write
+            CO2.correctBoundaryConditions();
+            CO2.write();
+            epsilon.correctBoundaryConditions();
+            epsilon.write();
+            k.correctBoundaryConditions();
+            k.write();
+            nut.correctBoundaryConditions();
+            nut.write();
+            U.correctBoundaryConditions();
+            U.write();
+            p.correctBoundaryConditions();
+            p.write();
+            shearStress.correctBoundaryConditions();
+            shearStress.write();
+            wallShearStress.correctBoundaryConditions();
+            wallShearStress.write();
+            
+        #};
+    }
+
+    TKEDR
+    {
+        libs        ("libutilityFunctionObjects.so");
+
+        type coded;
+        // Name of on-the-fly generated functionObject
+        name TKEDR;        
+        writeControl        adjustableRunTime;
+        writeInterval       1;
+        codeWrite
+        #{
+            // Lookup transportProperties dictionary
+            const dictionary& transportProperties = lookupObject<IOdictionary>("transportProperties");
+            // Lookup nu
+            const dimensionedScalar nu(transportProperties.lookup("nu"));
+            // Lookup U
+            const volVectorField& U = mesh().lookupObject<volVectorField>("U");
+            // Lookup epsilon
+            const volScalarField& epsilon = mesh().lookupObject<volScalarField>("epsilon");
+            // Write
+            volScalarField TKEDR
+            (
+                "TKEDR",
+                2*nu*magSqr(symm(fvc::grad(U))) + epsilon
+            );
+            TKEDR.correctBoundaryConditions();
+            TKEDR.write();
+            Info<< "nu = " << nu << endl;
+        #};
+    }
+
+    kolmogorovS
+    {
+        libs        ("libutilityFunctionObjects.so");
+
+        type coded;
+        // Name of on-the-fly generated functionObject
+        name kolmogorovS;
+        startTime           1e-18;
+        executeControl        adjustableRunTime;
+        executeInterval       1;
+        writeControl        adjustableRunTime;
+        writeInterval       1;
+        codeWrite
+        #{
+            // Lookup transportProperties dictionary
+            const dictionary& transportProperties = lookupObject<IOdictionary>("transportProperties");
+            // Lookup nu
+            const dimensionedScalar nu(transportProperties.lookup("nu"));
+            // Lookup U
+            const volVectorField& U = mesh().lookupObject<volVectorField>("U");
+            // Lookup epsilon
+            const volScalarField& epsilon = mesh().lookupObject<volScalarField>("epsilon");
+            // Write
+            volScalarField kolmogorovS
+            (
+                "kolmogorovS",
+                pow((pow(nu, 3))/(2*nu*magSqr(symm(fvc::grad(U))) + epsilon), 0.25)
+            );
+            kolmogorovS.correctBoundaryConditions();
+            kolmogorovS.write();
+
+        #};
+    }
+    
+    epsilonHistogram
+    {
+        type            histogram;
+        writeControl        adjustableRunTime;
+        writeInterval       1; 
+        executeControl        adjustableRunTime;
+        executeInterval       1;
+
+        libs            ("libfieldFunctionObjects.so");
+
+        field           TKEDR;
+        nBins           500;
+        min             0;
+        max             0.02;
+        setFormat       gnuplot;
+    }
+
+    kolmogorovHistogram
+    {
+        type            histogram;
+
+        libs            ("libfieldFunctionObjects.so");
+        
+        startTime           1e-18;
+        writeControl        adjustableRunTime;
+        writeInterval       1; 
+        executeControl        adjustableRunTime;
+        executeInterval       1;
+
+        field           kolmogorovS;
+        nBins           500;
+        min             0;
+        max             3e-3;
+        setFormat       gnuplot;
+    }
+}

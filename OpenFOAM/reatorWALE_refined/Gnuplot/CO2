@@ -1,0 +1,10 @@
+set title "CO2 probing"
+set xlabel 'Time'
+set ylabel 'mol/m³'
+set grid
+
+plot [0:] [1e-12:5e-3] for [col=3:3] "< cat /home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/probes/0/CO2 /home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/probes/18/CO2 /home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/probes/42/CO2" using 1:col with linespoints notitle, "< cat /home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/probes/0/CO2bF /home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/probes/18/CO2bF /home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/probes/42/CO2bF" with linespoints ps 0.5 lc rgb "red"
+
+pause 5
+reread
+

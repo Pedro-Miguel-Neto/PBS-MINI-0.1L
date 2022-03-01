@@ -1,0 +1,361 @@
+//
+FoamFile
+{
+	version	2.0;
+	class	dictionary;
+	format	ascii;
+	location	"system";
+	object	snappyHexMeshDict;
+}
+castellatedMesh true;
+snap	true;
+addLayers	false;
+geometry
+{
+	cylinder_1.stl
+	{
+        type	triSurfaceMesh;
+		simflowType	stl;
+		name    cylinder_1;
+		includedAngle	                                                120.0;
+	}
+
+	geo_100_mL_Wheel.stl
+	{
+		type	triSurfaceMesh;
+		simflowType	stl;
+		name	geo_100_mL_Wheel;
+		includedAngle	                                                120.0;
+	}
+    
+/*    Inner_sensor.stl
+	{
+        type	triSurfaceMesh;
+		simflowType	stl;
+		name	Inner_sensor;
+		includedAngle	                                                120.0;
+	}
+
+    Outer_sensor.stl
+	{
+		type	triSurfaceMesh;
+		simflowType	stl;
+		name	Outer_sensor;
+		includedAngle	                                                120.0;
+	}
+*/
+
+	Modified_100mL_Vessel.stl
+	{
+		type	triSurfaceMesh;
+		simflowType	stl;
+		name	Modified_100mL_Vessel;
+		includedAngle	                                                120.0;
+		splitAngle	                                                    120.0;
+		faceGroups
+		{
+			patch00
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch01
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch02
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch03
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch04
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch05
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch06
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch07
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch08
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch09
+			{
+				name	Modified_100mL_Vessel;
+			}
+			patch010
+			{
+				name	Modified_100mL_Vessel;
+			}
+		}
+	}
+}
+castellatedMeshControls
+{
+	locationInMesh	(-0.0011 0.0391 0.00151);
+	refinementSurfaces
+	{
+		cylinder_1
+		{
+			level	                                                    ( 2 2 );
+			faceZone	cylinder_1_contact;
+			cellZone	cylinder_1_contact;
+			cellZoneInside	inside;
+		}
+		geo_100_mL_Wheel
+		{
+			level	                                                    ( 0 1 );
+			patchInfo
+			{
+				type	wall;
+			}
+		}
+		Modified_100mL_Vessel
+		{
+			level	                                                    ( 0 1 );
+			patchInfo
+			{
+				type	wall;
+			}
+		}
+/*
+        Inner_sensor
+	    {
+		    level	                                                    ( 0 3 );
+			patchInfo
+			{
+				type	wall;
+			}
+	    }
+        Outer_sensor
+	    {
+		    level	                                                    ( 0 3 );
+			patchInfo
+			{
+				type	wall;
+			}
+	    }
+*/
+        
+	}
+	refinementRegions
+	{
+        geo_100_mL_Wheel
+        {
+            levels ((0.0025 2) (0.006 1));
+            mode distance;
+        }
+
+        cylinder_1
+        {
+            levels ((0.0005 2));
+            mode distance;
+        }
+	}
+	limitRegions
+	{
+	}
+	features	
+	(
+	{
+		file	"cylinder_1.eMesh";
+		level	                                                        2;
+	}
+	{
+		file	"geo_100_mL_Wheel.eMesh";
+		level	                                                        2;
+	}
+	{
+		file	"Modified_100mL_Vessel.eMesh";
+		level	                                                        2;
+	}
+/*
+    {
+		file	"Inner_sensor.eMesh";
+		level	                                                        2;
+	}
+    {
+		file	"Outer_sensor.eMesh";
+		level	                                                        2;
+	}
+*/
+	);
+
+	maxLocalCells	                                                    1000000;
+	maxGlobalCells	                                                    1000000000;
+	nCellsBetweenLevels	                                                4;
+	maxLoadUnbalance	                                                0.1;
+	minRefinementCells	                                                0;
+	resolveFeatureAngle	                                                30.0;           
+	allowFreeStandingZoneFaces	                                        false;              //
+
+//    gapLevelIncrement                                                   1;
+//    blockLevelIncrement                                                 0;
+//    handleSnapProblems                                                  true;
+//    useTopologicalSnapDetection                                         true;
+//    interfaceRefine                                                     true;
+//    nCellZoneErodeIter                                                  0;
+//    gapMode                                                             mixed;
+//    gapLevel                                                            (3 0 4);
+    
+}
+snapControls
+{
+	tolerance	                                                        1.0;
+	nSmoothPatch	                                                    3;
+    nSmoothInternal                                                     3;
+	nSolveIter	                                                        500;
+	nRelaxIter	                                                        8;
+	nFeatureSnapIter	                                                10;
+	implicitFeatureSnap	                                                true;
+	explicitFeatureSnap	                                                true;
+	multiRegionFeatureSnap	                                            false;
+	nFaceSplitInterval	                                                13;
+
+//    detectBaffles                                                       true;
+//    releasePoints                                                       true;
+//    stringFeatures                                                      true;
+//    minAreaRatio                                                        0.3;
+//    detectNearSurfaceSnap                                               true;
+//    baffleFeaturePoints                                                 true;
+//    strictRegionSnap                                                    true;
+
+}
+addLayersControls
+{
+	layers
+	{
+        top
+        {
+            nSurfaceLayers	                                            4;
+		    expansionRatio	                                            1.225;
+			firstLayerThickness	                                        0.00006; 
+        }
+
+		geo_100_mL_Wheel
+		{
+			nSurfaceLayers	                                            4;
+			expansionRatio	                                            1.225;
+			firstLayerThickness	                                        0.00006;
+		}
+
+		Modified_100mL_Vessel_patch04
+		{
+			nSurfaceLayers	                                            4;
+			expansionRatio	                                            1.225;
+			firstLayerThickness	                                        0.00006;
+		}
+		Modified_100mL_Vessel_patch05
+		{
+			nSurfaceLayers	                                            4;
+			expansionRatio	                                            1.225;
+			firstLayerThickness	                                        0.00006;
+		}
+		Modified_100mL_Vessel_patch06
+		{
+			nSurfaceLayers	                                            4;
+			expansionRatio	                                            1.225;
+			firstLayerThickness	                                        0.00006;
+		}
+		Modified_100mL_Vessel_patch07
+		{
+			nSurfaceLayers	                                            4;
+			expansionRatio	                                            1.225;
+			firstLayerThickness	                                        0.00006;
+		}
+		
+		Modified_100mL_Vessel_patch09
+		{
+			nSurfaceLayers	                                            4;
+			expansionRatio	                                            1.225;
+			firstLayerThickness	                                        0.00006;
+		}
+/*
+        Inner_sensor
+		{
+			nSurfaceLayers	                                            2;
+			expansionRatio	                                            1.225;
+			firstLayerThickness	                                        0.00005;
+		}
+        Outer_sensor
+		{
+			nSurfaceLayers	                                            4;
+			expansionRatio	                                            1.225;
+			firstLayerThickness	                                        0.00006;
+		}
+*/
+	}
+	relativeSizes	                                                    false;
+	minThickness	                                                    0.00003;
+	firstLayerThickness	                                                0.00006;
+
+//    finalLayerThickness                                                 0.45;    
+    
+	expansionRatio	                                                    1.225;
+	nGrow	                                                            0;
+	featureAngle	                                                    310.0;
+	maxFaceThicknessRatio	                                            5.0;
+	nSmoothSurfaceNormals	                                            5;
+	nSmoothThickness	                                                10;
+	minMedialAxisAngle	                                                90.0;
+	maxThicknessToMedialRatio	                                        5.0;
+	nMedialAxisIter	                                                    100;
+	nSmoothNormals	                                                    3;
+	slipFeatureAngle	                                                180.0;
+	nRelaxIter	                                                        5;
+	nBufferCellsNoExtrude	                                            0;
+	nLayerIter	                                                        55;
+	nRelaxedIter	                                                    35;
+	detectExtrusionIsland	                                            true;
+}
+meshQualityControls
+{
+	maxNonOrtho	                                                        65.0;
+	maxBoundarySkewness	                                                4.0;
+	maxInternalSkewness	                                                4.0;
+	maxConcave	                                                        80.0;
+	minVol	                                                            1e-15;
+	minTetQuality	                                                    1e-15;
+	minArea	                                                            -1;
+	minTwist	                                                        0.01;
+	minTriangleTwist	                                                -1.0;
+	minDeterminant	                                                    0.01;
+	minFaceWeight	                                                    0.05;
+	minVolRatio	                                                        0.01;
+//	minVolCollapseRatio	                                                0.1;
+	nSmoothScale	                                                    4;
+	errorReduction	                                                    0.75;
+	relaxed
+	{
+		maxNonOrtho	                                                    75.0;
+	}
+}
+mergeTolerance	                                                        1.0E-7;
+debug	                                                                0;
+
+//debugFlags
+//(
+//    mesh
+//    intersections
+//    featureSeeds
+//    attraction
+//    layerInfo
+//);
+
+writeFlags
+(
+    scalarLevels
+    layerSets
+    layerFields
+);

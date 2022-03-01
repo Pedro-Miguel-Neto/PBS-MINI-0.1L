@@ -1,0 +1,4 @@
+faceSet f0 new patchToFace top
+faceSet f0 add patchToFace boundaries 
+cellSet c0 new faceToCell f0 any
+cellZoneSet c0Zone new setToCellZone c0

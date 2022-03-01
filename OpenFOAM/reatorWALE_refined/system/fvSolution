@@ -1,0 +1,117 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  8.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+	version	2.0;
+	class	dictionary;
+	format	ascii;
+	location	"system";
+	object	fvSolution;
+}
+solvers
+{
+	p
+	{
+		solver	GAMG;
+		smoother	GaussSeidel;
+		relTol	0.01;
+		cacheAgglomeration	true;
+		nFinestSweeps	2;
+		nPreSweeps	0;
+		maxIter	1000;
+		nPostSweeps	1;
+		agglomerator	faceAreaPair;
+		nCellsInCoarsestLevel	10;
+		tolerance	1.0E-7;
+		mergeLevels	1;
+        minIter 3;
+	}
+	pFinal
+	{
+		solver	GAMG;
+		smoother	GaussSeidel;
+		relTol	0;
+		cacheAgglomeration	true;
+		nFinestSweeps	2;
+		nPreSweeps	0;
+		maxIter	1000;
+		nPostSweeps	1;
+		agglomerator	faceAreaPair;
+		nCellsInCoarsestLevel	10;
+		tolerance	1.0E-9;
+		mergeLevels	1;
+		minIter	3;
+	}
+    "pcorr.*"
+    {
+        solver          GAMG;
+        smoother        GaussSeidel;
+        cacheAgglomeration no;
+
+        tolerance        0.02;
+        relTol           0;
+    }
+	U
+	{
+		solver	PBiCGStab;
+		relTol	0;
+		preconditioner	DILU;
+		tolerance	1.0E-8;
+		maxIter	1000;
+	}
+	UFinal
+	{
+		solver	PBiCGStab;
+		relTol	0;
+		preconditioner	DILU;
+		tolerance	1.0E-9;
+		maxIter	1000;
+		minIter	1;
+	}
+	CO2
+	{
+		solver	PBiCGStab;
+		relTol	1.0E-7;
+		preconditioner	DILU;
+		tolerance	1.0E-10;
+		maxIter	500;
+	}
+	CO2Final
+	{
+		solver	PBiCGStab;
+		relTol	0;
+		preconditioner	DILU;
+		tolerance	1.0E-10;
+		maxIter	500;
+		minIter	1;
+	}
+}
+PIMPLE
+{
+	consistent	true;
+	nCorrectors	3;
+	nNonOrthogonalCorrectors 2;
+	momentumPredictor	true;
+	moveMeshOuterCorrectors	 true;
+	correctPhi  yes;
+	checkMeshCourantNo	false;
+	nOuterCorrectors 2;
+
+	pRefCell	0;
+	pRefValue	0.0;
+    CO2Min  0;
+    CO2Max  0.27;
+
+    }
+}
+relaxationFactors
+{
+	p	1;
+	U	1;       //
+    CO2 1;
+}

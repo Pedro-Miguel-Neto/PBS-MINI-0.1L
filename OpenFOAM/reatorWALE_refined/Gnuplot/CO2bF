@@ -1,0 +1,10 @@
+set title "CO2bF"
+set xlabel 'Time'
+set ylabel 'mol/m³'
+set grid
+
+plot "/home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/probes/0/CO2bF" with linespoints ps 0.5 lc rgb "red" lw 2 title "30 rpm - Partial Slip 80%", "/home/pedroneto/oxySolver/caseTest/meshTurbo/postProcessing/probes/18/CO2bF" with linespoints ps 0.5 lc rgb "red" lw 2 title "30 rpm - Partial Slip 80%"
+
+pause 5
+reread 
+
