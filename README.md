@@ -3,7 +3,7 @@ A research on the hydrodynamics and aeration of the PBS-Biotech MINI 100 mL bior
 
 To visualize and perform the data treatment, download the Data_Treatment directory. After that open Matlab, add the path with subfolders in the Home tab and run the postProcessing script.
 
-To perform your own simulations make sure you have OpenFOAM 8 installed. Then, download the reatorWALE cases and solver, and compile the solver by typping the wclean and wmake commands in the terminal (inside the solver directory). To set-up the mesh run the mesh/meshy bash file to create the mesh (in the case you want to change the opreational volume check point 4 first**). After select the operating conditions:
+To perform your own simulations make sure you have OpenFOAM 8 installed. Then, download the reatorWALE cases and solver, and compile the solver by typping the wclean and wmake commands in the terminal (inside the solver directory). To set-up the mesh run the mesh/meshy bash file to create the mesh (check how much proocessors you want to run the simulation on and adjust the system/decomposePar file and "-np" entry in the mesh/meshy script, as well as when you initialize the simulation; In the case you want to change the operational volume check point 4 first**). After select the operating conditions:
 
 1 - Agitation rate (in rad/s) in constant/dynamicMeshDict;
 
@@ -23,4 +23,6 @@ To change the discretization schemes access system/fvSchemes.
 
 To change the solution methods and parameters access system/fvSolution.
 
-In case you run into any problems you can contact me through e-mail: pedro.miguel.neto@tecnico.ulisboa.pt
+To start the simulation run the command: nohup mpirun -np <Ncpu> oxySolver -parallel
+
+> In case you run into problems you can contact me by e-mail :) pedro.miguel.neto@tecnico.ulisboa.pt
