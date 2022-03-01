@@ -1,0 +1,39 @@
+FoamFile
+{
+	version             2.0;
+	format              binary;
+	arch                "LSB;label=32;scalar=64";
+	class               volScalarField;
+	location            "0";
+	object              nut;
+}
+
+
+dimensions	[0 2 -1 0 0 0 0];
+internalField	uniform 0;
+boundaryField
+{
+	top
+	{
+		type	calculated;
+		value	uniform 0;
+	}
+	geo_100_mL_Wheel
+	{
+		type	calculated;
+		value	uniform 0;
+	}
+	cylinder_1_contact1
+	{
+		type	cyclicAMI;
+	}
+	cylinder_1_contact1_slave
+	{
+		type	cyclicAMI;
+	}
+	Modified_100mL_Vessel
+	{
+		type	calculated;
+		value	uniform 0;
+	}
+}

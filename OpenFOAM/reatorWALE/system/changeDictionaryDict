@@ -1,0 +1,117 @@
+FoamFile
+{
+	version             2.0;
+	format              binary;
+	arch                "LSB;label=32;scalar=64";
+	class               dictionary;
+	location            "system";
+	object              changeDictionaryDict;
+}
+
+
+p
+{
+	boundaryField
+	{
+		top
+		{
+			type	zeroGradient;
+		}
+		geo_100_mL_Wheel
+		{
+			type	zeroGradient;
+		}
+		cylinder_1_contact1
+		{
+			type	cyclicAMI;
+		}
+		cylinder_1_contact1_slave
+		{
+			type	cyclicAMI;
+		}
+		Modified_100mL_Vessel
+		{
+			type	zeroGradient;
+		}
+	}
+}
+U
+{
+	boundaryField
+	{
+		top
+		{
+			type	slip;
+		}
+		geo_100_mL_Wheel
+		{
+			type	movingWallVelocity;
+			value	uniform (0.0 0.0 0.0);
+		}
+		cylinder_1_contact1
+		{
+			type	cyclicAMI;
+		}
+		cylinder_1_contact1_slave
+		{
+			type	cyclicAMI;
+		}
+		Modified_100mL_Vessel
+		{
+			type	noSlip;
+		}
+	}
+}
+nut
+{
+	boundaryField
+	{
+		top
+		{
+			type	calculated;
+		}
+		geo_100_mL_Wheel
+		{
+			type	nutUWallFunction;
+		}
+		cylinder_1_contact1
+		{
+			type	cyclicAMI;
+		}
+		cylinder_1_contact1_slave
+		{
+			type	cyclicAMI;
+		}
+		Modified_100mL_Vessel
+		{
+			type	nutUWallFunction;
+		}
+	}
+}
+scalar1
+{
+	boundaryField
+	{
+		top
+		{
+			type	fixedValue;
+			value	uniform 1.0E-6;
+		}
+		geo_100_mL_Wheel
+		{
+			type	zeroGradient;
+		}
+		cylinder_1_contact1
+		{
+			type	cyclicAMI;
+		}
+		cylinder_1_contact1_slave
+		{
+			type	cyclicAMI;
+		}
+		Modified_100mL_Vessel
+		{
+			type	zeroGradient;
+		}
+	}
+}

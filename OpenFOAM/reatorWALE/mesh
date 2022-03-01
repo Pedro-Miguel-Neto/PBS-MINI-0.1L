@@ -1,0 +1,15 @@
+#bin
+blockMesh -noFunctionObjects
+surfaceFeatureExtract
+decomposePar -copyZero
+mpirun -n 3 snappyHexMesh -noFunctionObjects -overwrite -parallel
+reconstructParMesh -constant
+createPatch -noFunctionObjects -overwrite
+mergeOrSplitBaffles -overwrite -split
+rm -r proc*
+#manually keep only cylinder_1_contact1 and cylinder_1_contact1_slave 
+#manually create cyclicACMI see .ori files
+#refineWallLayer -overwrite '(top)' 0.3 
+#refineWallLayer -overwrite '(top)' 0.3 
+#refineWallLayer -overwrite '(top)' 0.3 
+

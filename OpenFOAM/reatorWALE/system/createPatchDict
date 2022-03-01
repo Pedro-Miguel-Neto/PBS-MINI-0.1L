@@ -1,0 +1,84 @@
+FoamFile
+{
+	version	2.0;
+	format	ascii;
+	class	dictionary;
+	location	"system";
+	object	createPatchDict;
+}
+pointSync	false;
+patches	
+(
+	{
+		name    cylinder_1_contact1E;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (cylinder_1_disk1);
+	}
+	{
+		name    cylinder_1_contact1E_slave;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (cylinder_1_disk1_slave);
+	}
+	{
+		name    cylinder_1_contact1D;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (cylinder_1_disk2);
+	}
+	{
+		name    cylinder_1_contact1D_slave;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (cylinder_1_disk2_slave);
+	}
+	{
+		name    cylinder_1_contact1;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (cylinder_1_cylinder);
+	}
+	{
+		name    cylinder_1_contact1_slave;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (cylinder_1_cylinder_slave);
+	}
+	{
+		name    geo_100_mL_Wheel;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (geo_100_mL_Wheel_default);
+	}
+	{
+		name    Modified_100mL_Vessel;
+		patchInfo
+		{
+			type    wall;
+		}
+		constructFrom patches;
+		patches  (Modified_100mL_Vessel_patch00 Modified_100mL_Vessel_patch01 Modified_100mL_Vessel_patch02 Modified_100mL_Vessel_patch03 Modified_100mL_Vessel_patch04 Modified_100mL_Vessel_patch05 Modified_100mL_Vessel_patch06 Modified_100mL_Vessel_patch07 Modified_100mL_Vessel_patch08 Modified_100mL_Vessel_patch09 Modified_100mL_Vessel_patch010);
+	}
+);

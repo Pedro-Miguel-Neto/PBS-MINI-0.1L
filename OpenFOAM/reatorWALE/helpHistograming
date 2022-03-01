@@ -1,0 +1,10 @@
+dir=$(pwd)
+cd $dir/postProcessing/kolmogorovHistogram
+grep -rli 'lines' * | xargs -i@ sed -i 's/lines/boxes/g' @
+for d in ./*/ ; do (cd "$d" && gnuplot Volume_Fraction_kolmogorovS.gplt); done
+for subdir in *; do mv $subdir/Volume_Fraction.ps $subdir.ps; done;
+cd $dir/postProcessing/epsilonHistogram
+grep -rli 'lines' * | xargs -i@ sed -i 's/lines/boxes/g' @
+for d in ./*/ ; do (cd "$d" && gnuplot Volume_Fraction_TKEDR.gplt); done
+for subdir in *; do mv $subdir/Volume_Fraction.ps $subdir.ps; done;
+

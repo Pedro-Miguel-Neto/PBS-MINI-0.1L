@@ -1,0 +1,10 @@
+set title "CO2 probing"
+set xlabel 'Time'
+set ylabel 'mol/m³'
+set grid
+
+plot [0:] [1e-12:5e-3] for [col=3:3] "< cat ../postProcessing/probes/*/CO2" using 1:col with linespoints notitle, "< cat ../postProcessing/probes/*/CO2bF" with linespoints ps 0.5 lc rgb "red"
+
+pause 5
+reread
+

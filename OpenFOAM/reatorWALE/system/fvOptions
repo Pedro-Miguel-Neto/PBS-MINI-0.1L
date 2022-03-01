@@ -1,0 +1,16 @@
+FoamFile
+{
+	class	dictionary;
+	format	ascii;
+	location	"system";
+	object	fvOptions;
+	version	2.0;
+}
+    limitU
+    {
+        type            limitVelocity;
+        active          yes;
+
+        selectionMode   all;
+        max             0.2;
+    }

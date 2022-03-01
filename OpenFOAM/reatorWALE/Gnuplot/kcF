@@ -1,0 +1,10 @@
+set title "Time-averaged kL"
+set xlabel 'Time (s)'
+set ylabel 'kL (m/s)'
+set grid
+
+plot "<cat ../postProcessing/probes/0/kcF" with linespoints ps 0.5 lc rgb "blue" lw 2 title "slip: 100 mL - 40 rpm"
+
+pause 5
+reread 
+

@@ -1,0 +1,9 @@
+set title "p - Maxima and Minima"
+set ylabel 'm²/s²'
+set xlabel 'Time'
+set grid
+
+plot [0.1:] for [col=6:7] "< cat ../postProcessing/fieldMinMax/*/fieldMinMax.dat" using 1:col with lines notitle
+
+pause 60
+reread

@@ -1,0 +1,10 @@
+set title "Instantaneous kL"
+set xlabel 'Time (s)'
+set ylabel 'kL (m/s)'
+set grid
+
+plot "<cat ../postProcessing/probes/*/kcInstF" with linespoints ps 0.5 lc rgb "red" lw 2 title "slip: 100 mL - 40 rpm"
+
+pause 5
+reread 
+
