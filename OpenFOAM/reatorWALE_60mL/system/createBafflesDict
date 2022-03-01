@@ -1,0 +1,47 @@
+//
+
+FoamFile
+{
+	version	2.0;
+	class	dictionary;
+	format	ascii;
+	location	"system";
+	object	createBafflesDict;
+}
+
+internalFacesOnly   true;
+
+baffles
+{
+    rotating
+    {
+        type faceZone;
+        zoneName        cylinder_1_contact;
+
+        patches
+        {
+            master
+            {
+                name    cylinder_AMI1;
+                type    cyclicAMI;
+                matchTolerance  0.0001;
+                neighbourPatch  cylinder_AMI2;
+                transform   rotational;
+                transform       rotational;
+                rotationAxis    (0 0 1);
+                rotationCentre  (0 0 -0.0115);
+                rotationAngle   0;
+                //Switch to zero-gradient for low weights
+                lowWeightCorrection 0.2; 
+            }
+            
+            slave
+            {
+                $master;
+                name    cylinder_AMI2;
+                neighbourPatch  cylinder_AMI1;
+                lowWeightCorrection 0.2;
+            }
+        }
+    }
+}   

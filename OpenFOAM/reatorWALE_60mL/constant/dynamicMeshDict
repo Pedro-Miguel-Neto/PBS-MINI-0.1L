@@ -1,0 +1,23 @@
+//
+FoamFile
+{
+	version	2.0;
+	class	dictionary;
+	format	ascii;
+	location	"constant";
+	object	dynamicMeshDict;
+}
+dynamicFvMesh	dynamicMotionSolverFvMesh;
+motionSolverLibs	();
+motionSolver	solidBody;
+solidBodyCoeffs
+{
+	cellZone	cylinder_1_contact;
+	solidBodyMotionFunction	rotatingMotion;
+	rotatingMotionCoeffs
+	{
+		axis	(0.0 0.0 1.0);
+		omega	3.1416;
+		origin	(0.0 0.0 -0.0115);
+	}
+}
