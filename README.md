@@ -1,5 +1,5 @@
 # PBS-MINI-0.1L
-A research on the hydrodynamics and aeration of the PBS-Biotech MINI 100 mL bioreactor.
+A research on the hydrodynamics and aeration of the PBS-Biotech MINI 0.1L.
 
 To visualize and perform the data treatment, download the Data_Treatment directory. After that open Matlab, add the path with subfolders in the Home tab and run the postProcessing script.
 
