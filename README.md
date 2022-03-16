@@ -3,7 +3,7 @@ A research on the hydrodynamics and aeration of the PBS-Biotech MINI 0.1L.
 
 To visualize and perform the data treatment, download the Data_Treatment directory. After that open MATLAB, add the path with subfolders in the Home tab and run the postProcessing script.
 
-To perform your own simulations make sure you have OpenFOAM v8 installed. Then, download the OpenFOAM directory and compile the solver by typping the wclean and wmake commands in the terminal (inside the solver directory). To set-up the mesh run the mesh/meshy bash file to create the mesh (check how much proocessors you want to run the simulation on and adjust the system/decomposePar file and "-np" entry in the mesh/meshy script, as well as when you initialize the simulation; In the case you want to change the operational volume check point 4 first**). After select the operating conditions:
+To perform your own simulations make sure you have OpenFOAM v8 installed. Then, download the OpenFOAM directory and compile the solver by typing the wclean and wmake commands in the terminal (inside the solver directory). To set-up the mesh run the mesh/meshy bash file to create the mesh (check how much proocessors you want to run the simulation on and adjust the system/decomposePar file and "-np" entry in the mesh/meshy script, as well as when you initialize the simulation; In the case you want to change the operational volume check point 4 first**). After select the operating conditions:
 
 1 - Agitation rate (in rad/s) in constant/dynamicMeshDict;
 
