@@ -1,4 +1,7 @@
 # PBS-MINI-0.1L
+
+IMPORTANT: I am still waiting for permission to upload the bioreactor geometry. This means that the cases won´t work in case you try to download them. However, the solver will work, and if you have the TriSurface files for some case of yours, then you can you can adapt the files to your new geometry and run it.
+
 A research on the hydrodynamics and aeration of the PBS-Biotech MINI 0.1L.
 
 To visualize and perform the data treatment, download the Data_Treatment directory. After that, open MATLAB and add the path with subfolders in the Home tab, then run the postProcessing script.
