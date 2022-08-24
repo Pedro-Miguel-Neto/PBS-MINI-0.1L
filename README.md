@@ -1,12 +1,10 @@
 # PBS-MINI-0.1L
 
-IMPORTANT: I am still waiting for permission to upload the bioreactor geometry. This means that the cases won´t work in case you try to download them. However, the solver will work, and if you have the TriSurface files for some case of yours, then you can you can adapt the files to your new geometry and run it.
-
 A research on the hydrodynamics and aeration of the PBS-Biotech MINI 0.1L.
 
 To visualize and perform the data treatment, download the Data_Treatment directory. After that, open MATLAB and add the path with subfolders in the Home tab, then run the postProcessing script.
 
-To perform your own simulations make sure you have OpenFOAM v8 installed. Then, download the OpenFOAM directory and compile the solver by typing the wclean and wmake commands in the terminal (inside the solver directory). To set-up the mesh run the mesh/meshy bash file (check how much processors you want to run the simulation with and adjust the system/decomposePar file and "-np" entry in the mesh/meshy script, as well as when you initialize the simulation; In the case you want to change the operational volume check point 4 first**). After that, select the operating conditions:
+To perform your own simulations make sure you have OpenFOAM v8 installed. Then, download the OpenFOAM directory and compile the solver by typing the wclean and wmake commands in the terminal (inside the solver directory). To set-up the mesh, transfer the "triSurface" folder to the "constant" folder, and run the mesh/meshy bash file (check how much processors you want to run the simulation with and adjust the system/decomposePar file and "-np" entry in the mesh/meshy script, as well as when you initialize the simulation; In the case you want to change the operational volume check point 4 first**). After that, select the operating conditions:
 
 1 - Agitation rate (in rad/s) in constant/dynamicMeshDict;
 
